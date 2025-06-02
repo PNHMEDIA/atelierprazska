@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATELIER PRAŽSKÁ - Café & Bar</title>
+    <title>ATELIER PRAŽSKÁ - Multifunkční kulturní prostor</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -17,40 +20,56 @@
             line-height: 1.6;
             color: #2c2c2c;
             overflow-x: hidden;
+            background: #fafafa;
         }
 
         /* Custom Properties */
         :root {
-            --primary-beige: #f5f1eb;
-            --warm-beige: #e8ddd4;
-            --dark-beige: #d4c4b0;
-            --accent-brown: #8b6f47;
-            --deep-brown: #5d4e37;
+            --primary-dark: #1a1a1a;
+            --secondary-dark: #2c2c2c;
+            --light-gray: #f8f8f8;
+            --warm-white: #fafafa;
+            --accent-teal: #7ba89b;
+            --soft-teal: #a8c4b8;
+            --accent-orange: #e8a87c;
+            --accent-purple: #9d8df1;
             --text-dark: #2c2c2c;
-            --text-light: #6b5b47;
-            --white: #ffffff;
+            --text-light: #666666;
+            --text-muted: #999999;
+            --border-light: #e5e5e5;
         }
 
         /* Typography */
+        .display-font {
+            font-family: 'Playfair Display', serif;
+        }
+
         .hero-title {
-            font-size: clamp(3rem, 8vw, 8rem);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            line-height: 0.9;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
         }
 
         .section-title {
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            line-height: 1.1;
-            margin-bottom: 2rem;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            letter-spacing: 0.01em;
+            line-height: 1.2;
+            margin-bottom: 3rem;
         }
 
         .large-text {
-            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-            font-weight: 400;
-            line-height: 1.4;
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        .highlight-text {
+            color: var(--accent-teal);
+            font-weight: 500;
         }
 
         /* Header */
@@ -59,10 +78,17 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-            padding: 1.5rem 2rem;
-            background: rgba(245, 241, 235, 0.95);
+            padding: 2rem;
+            background: rgba(250, 250, 250, 0.95);
             backdrop-filter: blur(20px);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .header.scrolled {
+            padding: 1.5rem 2rem;
+            background: rgba(250, 250, 250, 0.98);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .nav {
@@ -74,73 +100,56 @@
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--deep-brown);
-            letter-spacing: 0.1em;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2.5rem;
+            gap: 3rem;
         }
 
         .nav-links a {
             color: var(--text-dark);
             text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
+            font-size: 0.9rem;
+            font-weight: 400;
             transition: color 0.3s ease;
-            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
         .nav-links a:hover {
-            color: var(--accent-brown);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background: var(--accent-brown);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
+            color: var(--accent-teal);
         }
 
         /* Hero Section */
         .hero {
             height: 100vh;
-            background: linear-gradient(135deg, var(--primary-beige) 0%, var(--warm-beige) 100%);
+            background: var(--warm-white);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
+            text-align: center;
         }
 
         .hero-content {
-            text-align: center;
-            z-index: 2;
-            max-width: 1200px;
+            max-width: 1000px;
             padding: 0 2rem;
-            animation: fadeInUp 1s ease-out;
         }
 
         .hero-subtitle {
-            font-size: 1.2rem;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            color: var(--text-muted);
             margin-bottom: 1rem;
             text-transform: uppercase;
-            animation: fadeInUp 1s ease-out 0.2s both;
         }
 
         .hero-location {
@@ -148,125 +157,110 @@
             color: var(--text-light);
             margin-top: 2rem;
             letter-spacing: 0.1em;
-            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            opacity: 0.6;
+        }
+
+        .float-1 {
+            top: 20%;
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            background: var(--accent-orange);
+            border-radius: 50%;
+        }
+
+        .float-2 {
+            top: 60%;
+            right: 15%;
+            width: 120px;
+            height: 60px;
+            background: var(--accent-purple);
+            border-radius: 30px;
+        }
+
+        .float-3 {
+            bottom: 20%;
+            left: 20%;
+            width: 60px;
+            height: 100px;
+            background: var(--soft-teal);
+            border-radius: 15px;
         }
 
         /* About Section */
         .about-section {
-            padding: 8rem 2rem;
-            background: var(--white);
+            padding: 10rem 2rem;
+            background: var(--warm-white);
         }
 
         .section-container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        .about-grid {
+        .about-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-description {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 4rem;
+        }
+
+        .features-grid {
             display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 6rem;
-            align-items: center;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
             margin-top: 4rem;
         }
 
-        .about-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--text-light);
-        }
-
-        .about-text p {
-            margin-bottom: 1.5rem;
-        }
-
-        .about-image {
-            height: 60vh;
-            background: linear-gradient(45deg, var(--dark-beige), var(--accent-brown));
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background: white;
             border-radius: 20px;
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
 
-        .image-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 1.2rem;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            background: linear-gradient(135deg, rgba(139, 111, 71, 0.9), rgba(93, 78, 55, 0.9));
-        }
-
-        /* Services Section */
-        .services-section {
-            background: var(--primary-beige);
-            padding: 8rem 2rem;
-            position: relative;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-            margin-top: 6rem;
-        }
-
-        .service-card {
-            background: var(--white);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-brown), var(--deep-brown));
-        }
-
-        .service-card:hover {
+        .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         }
 
-        .service-number {
+        .feature-icon {
             font-size: 3rem;
-            font-weight: 100;
-            color: var(--dark-beige);
             margin-bottom: 1.5rem;
+            color: var(--accent-teal);
         }
 
-        .service-title {
-            font-size: 1.5rem;
-            font-weight: 600;
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 500;
             margin-bottom: 1rem;
-            color: var(--deep-brown);
+            color: var(--text-dark);
         }
 
-        .service-desc {
+        .feature-desc {
             color: var(--text-light);
             line-height: 1.6;
         }
 
-        /* Hours Section */
-        .hours-section {
-            background: var(--deep-brown);
-            color: var(--white);
-            padding: 8rem 2rem;
+        /* Cultural Activities Section */
+        .cultural-section {
+            background: var(--light-gray);
+            padding: 10rem 2rem;
         }
 
-        .hours-grid {
+        .cultural-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 6rem;
@@ -274,130 +268,333 @@
             margin-top: 4rem;
         }
 
+        .cultural-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .cultural-text p {
+            margin-bottom: 2rem;
+        }
+
+        .cultural-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .cultural-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cultural-list i {
+            color: var(--accent-teal);
+            width: 20px;
+        }
+
+        .cultural-visual {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple));
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .cultural-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            letter-spacing: 0.2em;
+        }
+
+        /* Menu & Pricing Section */
+        .menu-section {
+            background: var(--warm-white);
+            padding: 10rem 2rem;
+        }
+
+        .menu-intro {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .pricing-highlight {
+            background: var(--accent-teal);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .pricing-title {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-desc {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .menu-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .menu-category {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .menu-category-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .menu-category-icon {
+            color: var(--accent-teal);
+        }
+
+        /* Events Section */
+        .events-section {
+            background: var(--light-gray);
+            padding: 10rem 2rem;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .event-image {
+            height: 200px;
+            background: linear-gradient(45deg, var(--accent-orange), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+        }
+
+        .event-content {
+            padding: 2rem;
+        }
+
+        .event-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .event-desc {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Atmosphere Section */
+        .atmosphere-section {
+            background: var(--warm-white);
+            padding: 10rem 2rem;
+        }
+
+        .atmosphere-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            margin-top: 4rem;
+        }
+
+        .atmosphere-features {
+            list-style: none;
+        }
+
+        .atmosphere-features li {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .atmosphere-features i {
+            color: var(--accent-teal);
+            font-size: 1.3rem;
+            width: 25px;
+        }
+
+        .summer-terrace {
+            background: linear-gradient(135deg, var(--accent-orange), var(--soft-teal));
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            background: var(--primary-dark);
+            padding: 10rem 2rem;
+            color: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 4/3;
+            background: var(--accent-teal);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--secondary-dark);
+            color: var(--warm-white);
+            padding: 8rem 2rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+            margin-top: 4rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-block h3 {
+            color: var(--accent-teal);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
         .hours-list {
             list-style: none;
-            font-size: 1.3rem;
+            font-size: 1rem;
             font-weight: 300;
         }
 
         .hours-list li {
             display: flex;
             justify-content: space-between;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .hours-list li:hover {
-            padding-left: 1rem;
-            background: rgba(255,255,255,0.05);
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .contact-info {
-            font-size: 1.2rem;
+            font-size: 1rem;
             line-height: 2;
         }
 
         .contact-info a {
-            color: var(--warm-beige);
+            color: var(--soft-teal);
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .contact-info a:hover {
-            color: var(--white);
+            color: var(--warm-white);
         }
 
-        /* Events Section */
-        .events-section {
-            background: var(--warm-beige);
-            padding: 8rem 2rem;
-            text-align: center;
-        }
-
-        .event-cta {
-            background: var(--accent-brown);
-            color: var(--white);
-            padding: 4rem;
-            border-radius: 20px;
-            margin-top: 4rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-button {
-            display: inline-block;
-            border: 2px solid var(--white);
-            color: var(--white);
-            padding: 1rem 2.5rem;
-            text-decoration: none;
-            font-weight: 500;
-            letter-spacing: 0.1em;
+        .social-links {
+            display: flex;
+            gap: 1rem;
             margin-top: 2rem;
-            transition: all 0.3s ease;
-            border-radius: 50px;
-            text-transform: uppercase;
         }
 
-        .cta-button:hover {
-            background: var(--white);
-            color: var(--accent-brown);
-            transform: translateY(-2px);
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            border-color: var(--soft-teal);
+            background: var(--soft-teal);
+            color: var(--primary-dark);
         }
 
         /* Footer */
         .footer {
-            background: var(--text-dark);
-            color: var(--warm-beige);
+            background: var(--primary-dark);
+            color: var(--text-muted);
             padding: 3rem 2rem;
             text-align: center;
-            font-size: 0.9rem;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
+            font-size: 0.85rem;
         }
 
         /* Mobile Responsive */
@@ -406,26 +603,27 @@
                 display: none;
             }
 
-            .about-grid,
-            .hours-grid {
+            .cultural-grid,
+            .atmosphere-grid {
                 grid-template-columns: 1fr;
                 gap: 3rem;
             }
 
-            .services-grid {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .floating-element {
+                display: none;
+            }
+
+            .features-grid {
                 grid-template-columns: 1fr;
             }
 
-            .section-container {
-                padding: 0 1rem;
-            }
-
-            .hero-content {
-                padding: 0 1rem;
-            }
-
-            .service-card {
-                padding: 2rem;
+            .menu-categories {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -433,17 +631,40 @@
         html {
             scroll-behavior: smooth;
         }
+
+        /* GSAP Animation Classes */
+        .gsap-fade-up {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .gsap-fade-left {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        .gsap-fade-right {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        .gsap-scale {
+            opacity: 0;
+            transform: scale(0.8);
+        }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
+    <header class="header" id="header">
         <nav class="nav">
             <div class="logo">ATELIER PRAŽSKÁ</div>
             <ul class="nav-links">
                 <li><a href="#o-nas">O NÁS</a></li>
-                <li><a href="#sluzby">SLUŽBY</a></li>
+                <li><a href="#kultura">KULTURA</a></li>
+                <li><a href="#menu">MENU</a></li>
                 <li><a href="#akce">AKCE</a></li>
+                <li><a href="#galerie">GALERIE</a></li>
                 <li><a href="#kontakt">KONTAKT</a></li>
             </ul>
         </nav>
@@ -451,62 +672,244 @@
 
     <!-- Hero Section -->
     <section class="hero">
+        <div class="floating-element float-1"></div>
+        <div class="floating-element float-2"></div>
+        <div class="floating-element float-3"></div>
+        
         <div class="hero-content">
-            <div class="hero-subtitle">LIBEREC</div>
-            <h1 class="hero-title">ATELIER<br>PRAŽSKÁ</h1>
-            <div class="hero-location">PRAŽSKÁ 21 — VÍC NEŽ JEN KAVÁRNA</div>
+            <div class="hero-subtitle gsap-fade-up">LIBEREC</div>
+            <h1 class="hero-title display-font gsap-fade-up">ATELIER<br>PRAŽSKÁ</h1>
+            <div class="hero-location gsap-fade-up">MULTIFUNKČNÍ KULTURNÍ PROSTOR V CENTRU LIBERCE</div>
         </div>
     </section>
 
     <!-- About Section -->
     <section id="o-nas" class="about-section">
         <div class="section-container">
-            <h2 class="section-title animate-on-scroll">Vytvářímé nezapomenutelné zážitky</h2>
-            <div class="about-grid">
-                <div class="about-text animate-on-scroll">
-                    <p>Atelier Pražská není jen obyčejná kavárna. Je to místo, kde se setkává umění s gastronomií, kde každý šálek kávy vypráví příběh a kde vznikají nezapomenutelné okamžiky.</p>
-                    <p>Náš prostor v srdci Liberce nabízí útulné prostředí pro relaxaci, práci i setkávání s přáteli. Specializujeme se na kvalitní kávu, čerstvé dezerty a jedinečnou atmosféru, která inspiruje.</p>
-                    <p>V létě si můžete vychutnat naši krásnou terasu, která poskytuje perfektní únik od městského ruchu.</p>
+            <div class="about-content">
+                <h2 class="section-title display-font gsap-fade-up">Víc než jen příjemné posezení</h2>
+                <div class="about-description gsap-fade-up">
+                    <p>Atelier je nejen příjemné posezení v centru Liberce, ale také <span class="highlight-text">multifunkční prostor</span>, ideální pro pořádání koncertů, výstav či divadelních a filmových představení. Své místo u nás mají i <span class="highlight-text">nekuřáci</span>, v létě si navíc můžete vychutnat posezení na <span class="highlight-text">terase</span>.</p>
                 </div>
-                <div class="about-image animate-on-scroll">
-                    <div class="image-placeholder">
-                        NAŠE KAVÁRNA
+                
+                <div class="features-grid">
+                    <div class="feature-card gsap-scale">
+                        <div class="feature-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3 class="feature-title">Koncerty & Hudba</h3>
+                        <p class="feature-desc">Pravidelné hudební večery, živé vystoupení místních i mezinárodních umělců v intimní atmosféře.</p>
+                    </div>
+                    
+                    <div class="feature-card gsap-scale">
+                        <div class="feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3 class="feature-title">Výstavy & Umění</h3>
+                        <p class="feature-desc">Prostor pro současné umění, vernisáže a setkání s tvůrci z Liberecka i širokého okolí.</p>
+                    </div>
+                    
+                    <div class="feature-card gsap-scale">
+                        <div class="feature-icon">
+                            <i class="fas fa-theater-masks"></i>
+                        </div>
+                        <h3 class="feature-title">Divadlo & Film</h3>
+                        <p class="feature-desc">Komorní divadelní představení, filmové projekce a autorská čtení v unikátním prostředí.</p>
+                    </div>
+                    
+                    <div class="feature-card gsap-scale">
+                        <div class="feature-icon">
+                            <i class="fas fa-ban-smoking"></i>
+                        </div>
+                        <h3 class="feature-title">Nekuřácké Prostředí</h3>
+                        <p class="feature-desc">Čistý vzduch a příjemná atmosféra pro všechny návštěvníky, včetně rodin s dětmi.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="sluzby" class="services-section">
+    <!-- Cultural Activities Section -->
+    <section id="kultura" class="cultural-section">
         <div class="section-container">
-            <h2 class="section-title animate-on-scroll" style="color: var(--deep-brown);">Co nabízíme</h2>
-            <div class="services-grid">
-                <div class="service-card animate-on-scroll">
-                    <div class="service-number">01</div>
-                    <h3 class="service-title">Prémiová káva</h3>
-                    <p class="service-desc">Pečlivě vybraná zrna z nejlepších plantáží světa. Připravujeme každý šálek s láskou a odborností našich barista.</p>
+            <h2 class="section-title display-font gsap-fade-up">Kulturní program</h2>
+            <div class="cultural-grid">
+                <div class="cultural-text gsap-fade-left">
+                    <p>Náš prostor je navržen tak, aby poskytl ideální podmínky pro nejrůznější kulturní akce. Disponujeme profesionálním ozvučením, flexibilním uspořádáním sezení a atmosférou, která inspiruje jak účinkujíce, tak publikum.</p>
+                    
+                    <p>Pravidelně pořádáme akce různých žánrů a zaměření, abychom nabídli něco pro každého milovníka kultury v Liberci a okolí.</p>
+                    
+                    <ul class="cultural-list">
+                        <li><i class="fas fa-microphone"></i> Literární večery a autorská čtení</li>
+                        <li><i class="fas fa-guitar"></i> Akustické koncerty a jam session</li>
+                        <li><i class="fas fa-film"></i> Tematické filmové promítání</li>
+                        <li><i class="fas fa-users"></i> Diskuzní večery a besedy</li>
+                        <li><i class="fas fa-cocktail"></i> Vernisáže s doprovodným programem</li>
+                        <li><i class="fas fa-calendar-alt"></i> Workshopy a kreativní dílny</li>
+                    </ul>
                 </div>
-                <div class="service-card animate-on-scroll">
-                    <div class="service-number">02</div>
-                    <h3 class="service-title">Kulturní akce</h3>
-                    <p class="service-desc">Pravidelně pořádáme výstavy, koncerty, literární večery a workshopy. Podporujeme místní umělce a kulturní scénu.</p>
-                </div>
-                <div class="service-card animate-on-scroll">
-                    <div class="service-number">03</div>
-                    <h3 class="service-title">Pronájem prostoru</h3>
-                    <p class="service-desc">Ideální místo pro firemní akce, oslavy nebo soukromá setkání. Zajistíme kompletní servis podle vašich potřeb.</p>
+                
+                <div class="cultural-visual gsap-fade-right">
+                    <div class="cultural-placeholder">
+                        KULTURNÍ<br>EVENTS<br>& PERFORMANCES
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Hours & Contact Section -->
-    <section id="kontakt" class="hours-section">
+    <!-- Menu & Pricing Section -->
+    <section id="menu" class="menu-section">
         <div class="section-container">
-            <div class="hours-grid">
-                <div class="animate-on-scroll">
-                    <h2 class="section-title" style="color: var(--white);">Otevírací doba</h2>
+            <h2 class="section-title display-font gsap-fade-up">Nabídka za příznivé ceny</h2>
+            <div class="menu-intro gsap-fade-up">
+                V Atelieru na Vás čeká široká nabídka nápojů a občerstvení za příznivé ceny. Věříme, že kvalitní zážitky by měly být dostupné každému, proto se snažíme udržovat naše ceny na přijatelné úrovni.
+            </div>
+
+            <div class="pricing-highlight gsap-scale">
+                <h3 class="pricing-title display-font">Příznivé ceny pro všechny</h3>
+                <p class="pricing-desc">Naše filosofie je jednoduchá - dobrá káva, kvalitní nápoje a příjemná atmosféra nemusí být luxus.</p>
+            </div>
+
+            <div class="menu-categories">
+                <div class="menu-category gsap-fade-up">
+                    <h3 class="menu-category-title">
+                        <i class="fas fa-coffee menu-category-icon"></i>
+                        Káva & Teplé nápoje
+                    </h3>
+                    <p class="feature-desc">Pečlivě vybraná zrna, profesionální příprava. Od klasických espresso po specialty drinks, vše za dostupné ceny.</p>
+                </div>
+
+                <div class="menu-category gsap-fade-up">
+                    <h3 class="menu-category-title">
+                        <i class="fas fa-cocktail menu-category-icon"></i>
+                        Koktejly & Alkohol
+                    </h3>
+                    <p class="feature-desc">Kreativní koktejly, vybraná vína a piva. Každý drink připravujeme s láskou a za spravedlivou cenu.</p>
+                </div>
+
+                <div class="menu-category gsap-fade-up">
+                    <h3 class="menu-category-title">
+                        <i class="fas fa-leaf menu-category-icon"></i>
+                        Nealkoholické nápoje
+                    </h3>
+                    <p class="feature-desc">Čerstvě vymačkané džusy, domácí limonády, čaje z celého světa a další osvěžující nápoje.</p>
+                </div>
+
+                <div class="menu-category gsap-fade-up">
+                    <h3 class="menu-category-title">
+                        <i class="fas fa-cookie-bite menu-category-icon"></i>
+                        Občerstvení & Dezerty
+                    </h3>
+                    <p class="feature-desc">Domácí dezerty, čerstvé sendviče a lehké pokrmy. Perfektní doplněk k vašemu nápoji.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="akce" class="events-section">
+        <div class="section-container">
+            <h2 class="section-title display-font gsap-fade-up">Nadcházející akce</h2>
+            <div class="events-grid">
+                <div class="event-card gsap-scale">
+                    <div class="event-image">KONCERT</div>
+                    <div class="event-content">
+                        <h3 class="event-title">Akustické večery</h3>
+                        <p class="event-desc">Každý čtvrtek večer se náš prostor mění v intimní koncertní sál. Přijďte si vychutnat živou hudbu od místních i hostujících umělců.</p>
+                    </div>
+                </div>
+
+                <div class="event-card gsap-scale">
+                    <div class="event-image">VÝSTAVA</div>
+                    <div class="event-content">
+                        <h3 class="event-title">Měsíční vernisáže</h3>
+                        <p class="event-desc">Každý měsíc představujeme nové umělce. Vernisáže jsou doplněny o autorské koktejly a možnost setkat se s tvůrci.</p>
+                    </div>
+                </div>
+
+                <div class="event-card gsap-scale">
+                    <div class="event-image">FILM</div>
+                    <div class="event-content">
+                        <h3 class="event-title">Filmové promítání</h3>
+                        <p class="event-desc">Tematické filmové večery s diskuzí. Od artových snímků po dokumenty, vždy s možností debaty u dobrého nápoje.</p>
+                    </div>
+                </div>
+
+                <div class="event-card gsap-scale">
+                    <div class="event-image">DIVADLO</div>
+                    <div class="event-content">
+                        <h3 class="event-title">Komorní divadlo</h3>
+                        <p class="event-desc">Malá divadelní představení v neformálním prostředí. Zažijte divadlo tak blízko, jak jen to je možné.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Atmosphere Section -->
+    <section class="atmosphere-section">
+        <div class="section-container">
+            <h2 class="section-title display-font gsap-fade-up">Příjemná atmosféra</h2>
+            <div class="atmosphere-grid">
+                <div class="gsap-fade-left">
+                    <p class="large-text">Příjemný personál je u nás samozřejmostí. Naše café je místem setkávání, kde se každý cítí vítán a pohodlně.</p>
+                    
+                    <ul class="atmosphere-features">
+                        <li><i class="fas fa-heart"></i> Přátelský a profesionální personál</li>
+                        <li><i class="fas fa-wifi"></i> Rychlé Wi-Fi pro práci i relaxaci</li>
+                        <li><i class="fas fa-volume-down"></i> Klidné prostředí pro rozhovory</li>
+                        <li><i class="fas fa-wheelchair"></i> Bezbariérový přístup</li>
+                        <li><i class="fas fa-baby"></i> Vítáme rodiny s dětmi</li>
+                        <li><i class="fas fa-book"></i> Klidné zóny pro čtení a práci</li>
+                    </ul>
+                </div>
+                
+                <div class="gsap-fade-right">
+                    <div class="summer-terrace">
+                        <h3 class="pricing-title display-font">Letní terasa</h3>
+                        <p>V létě si můžete vychutnat posezení na naší krásné terase. Únikom od městského ruchu, obklopeni zelení a příjemnou atmosférou venkovního posezení.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="galerie" class="gallery-section">
+        <div class="section-container">
+            <h2 class="section-title display-font gsap-fade-up" style="color: white; text-align: center;">Náš prostor</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item gsap-scale">
+                    <div class="gallery-placeholder">Hlavní sál</div>
+                </div>
+                <div class="gallery-item gsap-scale">
+                    <div class="gallery-placeholder">Letní terasa</div>
+                </div>
+                <div class="gallery-item gsap-scale">
+                    <div class="gallery-placeholder">Bar & příprava</div>
+                </div>
+                <div class="gallery-item gsap-scale">
+                    <div class="gallery-placeholder">Kulturní akce</div>
+                </div>
+                <div class="gallery-item gsap-scale">
+                    <div class="gallery-placeholder">Výstavní prostor</div>
+                </div>
+                <div class="gallery-item gsap-scale">
+                    <div class="gallery-placeholder">Koncertní večery</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="kontakt" class="contact-section">
+        <div class="section-container">
+            <h2 class="section-title display-font gsap-fade-up" style="color: var(--warm-white); text-align: center; margin-bottom: 4rem;">Kontakt & informace</h2>
+            
+            <div class="contact-grid">
+                <div class="contact-block gsap-fade-up">
+                    <h3>OTEVÍRACÍ DOBA</h3>
                     <ul class="hours-list">
                         <li>
                             <span>Pondělí – Čtvrtek</span>
@@ -522,42 +925,223 @@
                         </li>
                     </ul>
                 </div>
-                <div class="animate-on-scroll">
-                    <h3 class="large-text" style="color: var(--white); margin-bottom: 2rem;">Kontakt</h3>
+                
+                <div class="contact-block gsap-fade-up">
+                    <h3>KONTAKTNÍ ÚDAJE</h3>
                     <div class="contact-info">
                         <p>Pražská 21<br>460 07 Liberec</p>
                         <p><a href="tel:+420602457676">+420 602 457 676</a></p>
                         <p><a href="mailto:info@atelierprazska.cz">info@atelierprazska.cz</a></p>
-                        <p style="margin-top: 2rem;">
-                            <a href="#" style="margin-right: 1rem;"><i class="fab fa-instagram"></i></a>
-                            <a href="#" style="margin-right: 1rem;"><i class="fab fa-facebook"></i></a>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
                             <a href="#"><i class="fas fa-envelope"></i></a>
-                        </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-block gsap-fade-up">
+                    <h3>REZERVACE & AKCE</h3>
+                    <div class="contact-info">
+                        <p>Pro rezervaci stolu či pořádání soukromých akcí nás kontaktujte předem.</p>
+                        <p>Nabízíme pronájem prostoru pro:</p>
+                        <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                            <li>• Firemní události</li>
+                            <li>• Soukromé oslavy</li>
+                            <li>• Kulturní akce</li>
+                            <li>• Workshopy</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Events Section -->
-    <section id="akce" class="events-section">
-        <div class="section-container">
-            <h2 class="section-title animate-on-scroll" style="color: var(--deep-brown);">Akce & události</h2>
-            <p class="large-text animate-on-scroll" style="color: var(--text-light);">Každý měsíc připravujeme jedinečné kulturní akce a setkání. Sledujte náš kalendář a staňte se součástí naší komunity.</p>
-            <div class="event-cta animate-on-scroll">
-                <h3 class="large-text">Chcete u nás vystoupit?</h3>
-                <p>Hledáme talentované umělce, hudebníky a performers. Poskytujeme prostor pro kreativní vyjádření a podporujeme místní kulturu.</p>
-                <a href="#kontakt" class="cta-button">Kontaktujte nás</a>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer class="footer">
-        <p>© 2024 Atelier Pražská. Provozovatel: T. Ornst, IČ: 63796295</p>
+        <div class="section-container">
+            <p>© 2024 Atelier Pražská. Provozovatel: T. Ornst, IČ: 63796295</p>
+            <p style="margin-top: 1rem; opacity: 0.7;">Multifunkční kulturní prostor v centru Liberce</p>
+        </div>
     </footer>
 
     <script>
+        // Register GSAP plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // GSAP Animations
+        gsap.timeline()
+            .from('.hero-subtitle', { duration: 1, y: 50, opacity: 0, ease: "power2.out" })
+            .from('.hero-title', { duration: 1.2, y: 50, opacity: 0, ease: "power2.out" }, "-=0.5")
+            .from('.hero-location', { duration: 1, y: 30, opacity: 0, ease: "power2.out" }, "-=0.3");
+
+        // Floating elements animation
+        gsap.to('.float-1', {
+            y: -20,
+            rotation: 360,
+            duration: 8,
+            repeat: -1,
+            yoyo: true,
+            ease: "power1.inOut"
+        });
+
+        gsap.to('.float-2', {
+            x: 20,
+            rotation: -180,
+            duration: 10,
+            repeat: -1,
+            yoyo: true,
+            ease: "power1.inOut"
+        });
+
+        gsap.to('.float-3', {
+            y: 30,
+            x: -15,
+            rotation: 90,
+            duration: 6,
+            repeat: -1,
+            yoyo: true,
+            ease: "power1.inOut"
+        });
+
+        // Scroll-triggered animations
+        gsap.utils.toArray('.gsap-fade-up').forEach(element => {
+            gsap.fromTo(element, 
+                { y: 50, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        gsap.utils.toArray('.gsap-fade-left').forEach(element => {
+            gsap.fromTo(element, 
+                { x: -50, opacity: 0 },
+                {
+                    x: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        gsap.utils.toArray('.gsap-fade-right').forEach(element => {
+            gsap.fromTo(element, 
+                { x: 50, opacity: 0 },
+                {
+                    x: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        gsap.utils.toArray('.gsap-scale').forEach(element => {
+            gsap.fromTo(element, 
+                { scale: 0.8, opacity: 0 },
+                {
+                    scale: 1,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "back.out(1.7)",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // Feature cards staggered animation
+        gsap.fromTo('.feature-card', 
+            { y: 50, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: "power2.out",
+                stagger: 0.2,
+                scrollTrigger: {
+                    trigger: '.features-grid',
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        // Events cards animation
+        gsap.fromTo('.event-card', 
+            { y: 30, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: "power2.out",
+                stagger: 0.15,
+                scrollTrigger: {
+                    trigger: '.events-grid',
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
+        // Gallery items animation
+        gsap.fromTo('.gallery-item', 
+            { scale: 0.9, opacity: 0, y: 20 },
+            {
+                scale: 1,
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                ease: "power2.out",
+                stagger: 0.1,
+                scrollTrigger: {
+                    trigger: '.gallery-grid',
+                    start: "top 85%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+
         // Smooth scrolling for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -572,33 +1156,16 @@
             });
         });
 
-        // Header background on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(245, 241, 235, 0.98)';
-            } else {
-                header.style.background = 'rgba(245, 241, 235, 0.95)';
+        // Parallax effect for hero section
+        gsap.to('.floating-element', {
+            y: (i, target) => -ScrollTrigger.maxScroll(window) * target.dataset.speed,
+            ease: "none",
+            scrollTrigger: {
+                trigger: '.hero',
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
             }
-        });
-
-        // Simple scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        // Apply scroll animations to elements
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
-            observer.observe(el);
         });
     </script>
 </body>
